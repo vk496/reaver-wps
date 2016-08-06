@@ -161,11 +161,21 @@ int8_t signal_strength(const u_char *packet, size_t len)
 			{
 				offset += FHSS_FLAG;
 			}
-
+                        
+                        int ath9k = 0;
+                        if (packet[offset] == 0) { //no data. ath9k
+                                offset += 12;
+                                ath9k = 1;
+                        }
+                        
 			if(offset < len)
 			{
 				ssi = (int8_t) packet[offset];
 			}
+                        
+                        if (ath9k == 1) {
+                                ssi = 100 - ssi;
+                        }
 		}
 	}
 
